@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HipHop History - Website Aghif</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff;
+      color: #000;
+      overflow-x: hidden;
+    }
+    .hero {
+      background: url('img/tahun1970.jpg') center/cover no-repeat;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: white;
+      position: relative;
+      padding: 0 20px;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 800px;
+    }
+    .hero-content h1 {
+      font-size: 60px;
+      font-weight: 900;
+    }
+    .hero-content p {
+      font-size: 20px;
+      font-style: italic;
+      color: #f0f0f0;
+      margin-top: 10px;
+    }
+    .hero-description {
+      margin-top: 30px;
+      font-size: 18px;
+      line-height: 1.6;
+      color: #e0e0e0;
+    }
+    .sticky-title {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: white;
+      z-index: 1000;
+      text-align: center;
+      padding: 20px 0 50px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      transition: all 0.3s ease;
+    }
+    .sticky-title h1 {
+      font-size: 32px;
+      font-weight: 900;
+    }
+    .sticky-title h2 {
+      font-size: 20px;
+      font-weight: 700;
+      font-style: italic;
+      text-decoration: underline;
+    }
+    .progress-bar-wrapper {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 6px;
+      background: #ccc;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: #000;
+      width: 0%;
+      transition: width 0.2s ease-out;
+    }
+    .title-space { height: 140px; }
+    .how-it-works-container {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 40px;
+      margin: 100px auto 60px;
+      max-width: 1000px;
+      opacity: 0;
+      animation: fadeInOnce 1.2s ease forwards;
+    }
+    .how-it-works {
+      text-align: left;
+      flex: 1;
+    }
+    .how-it-works h2 {
+      font-size: 30px;
+      font-weight: bold;
+      margin-bottom: 12px;
+    }
+    .how-it-works p {
+      font-size: 18px;
+      font-style: italic;
+      color: #444;
+      line-height: 1.6;
+    }
+    .scroll-guide {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      height: 120px;
+      margin-top: 8px;
+    }
+    .scroll-line {
+      width: 4px;
+      height: 100px;
+      background: black;
+      border-radius: 2px;
+    }
+    .scroll-dot-anim {
+      position: absolute;
+      top: 0;
+      width: 14px;
+      height: 14px;
+      background: black;
+      border-radius: 50%;
+      animation: scrollDown 1.8s ease-in-out infinite;
+    }
+    @keyframes scrollDown {
+      0% { top: 0; opacity: 1; }
+      100% { top: 100px; opacity: 0.4; }
+    }
+    @keyframes fadeInOnce {
+      from { opacity: 0; transform: translateY(60px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    /* =================== Fade-in/out with transition =================== */
+    .timeline-entry {
+      position: relative;
+      margin: 160px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      opacity: 0;
+      transform: translateY(60px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .timeline-entry.fade-in {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .timeline-entry.fade-out {
+      opacity: 0;
+      transform: translateY(-30px);
+    }
+    /* ===================================================================== */
+    .timeline-wrapper {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 100px 0;
+      position: relative;
+    }
+    .timeline {
+      position: relative;
+      z-index: 1;
+    }
+    .timeline::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 4px;
+      height: 100%;
+      background: black;
+      z-index: 0;
+    }
+    .timeline-hole {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 32px;
+      height: 52px;
+      background: white;
+      transform: translate(-50%, -50%);
+      z-index: 2;
+      pointer-events: none;
+    }
+    .year-label {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 6px 14px;
+      font-weight: bold;
+      font-size: 24px;
+      color: black;
+      z-index: 3;
+      box-shadow: 0 0 0 4px white;
+    }
+    .content-left {
+      width: 40%;
+      margin-left: calc(50% - 867px - 2px);
+      padding: 10px;
+      text-align: left;
+      z-index: 4;
+    }
+    .content-left h3 {
+      font-size: 38.5px;
+      margin-bottom: 12px;
+    }
+    .content-left p {
+      font-size: 25px;
+      line-height: 1.6;
+      color: #333;
+      margin-bottom: 18px;
+    }
+    .btn-link {
+      display: inline-block;
+      padding: 16px 28px;
+      font-size: 20px;
+      background: black;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 10px;
+      transition: background 0.3s ease;
+    }
+    .btn-link:hover {
+      background: #222;
+    }
+    .content {
+      width: 40%;
+      margin-right: calc(50% - 867px - 2px);
+      padding: 10px;
+      z-index: 4;
+    }
+    .image-wrapper {
+      width: 100%;
+      max-width: 100%;
+    }
+    .image-wrapper img {
+      width: 100%;
+      height: 340px;
+      object-fit: cover;
+      border-radius: 10px;
+      box-shadow: 0 6px 10px rgba(0, 0, 0, 0.25);
+    }
+    .scroll-dot {
+      width: 14px;
+      height: 14px;
+      background: black;
+      border-radius: 50%;
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 5;
+      transition: top 0.1s ease-out;
+    }
+    #backToTop {
+      position: fixed;
+      bottom: 40px;
+      right: 30px;
+      width: 60px;
+      height: 60px;
+      font-size: 28px;
+      border: none;
+      border-radius: 50%;
+      background: white;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+    }
+    #backToTop:hover {
+      background-color: #f0f0f0;
+    }
+    /* Media Queries for Mobile Devices */
+    @media (max-width: 768px) {
+      .hero-content h1 {
+        font-size: 40px;
+      }
+      .hero-content p {
+        font-size: 16px;
+      }
+      .hero-description {
+        font-size: 14px;
+      }
+      .sticky-title h1 {
+        font-size: 24px;
+      }
+      .sticky-title h2 {
+        font-size: 16px;
+      }
+      .how-it-works h2 {
+        font-size: 24px;
+      }
+      .how-it-works p {
+        font-size: 16px;
+      }
+      .timeline-entry {
+        flex-direction: column;
+        align-items: flex-start;
+        margin: 80px 0;
+      }
+      .timeline::before {
+        display: none;
+      }
+      .timeline-hole {
+        display: none;
+      }
+      .year-label {
+        display: none;
+      }
+      .content-left, .content {
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+        padding: 10px;
+      }
+      .content-left {
+        order: 3;
+        margin-top: 20px;
+      }
+      .content {
+        order: 2;
+      }
+      .scroll-dot {
+        top: 50%;
+        left: 20px;
+        transform: translateY(-50%);
+      }
+      .image-wrapper img {
+        height: 200px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <section class="hero">
+    <div class="hero-content">
+      <h1 class="display-1 fw-bold">HIPHOP HISTORY</h1>
+      <p class="lead">Revolusionisme Jalanan - Saksikan Sejarahnya</p>
+      <div class="hero-description">
+        <p>
+          Hip hop adalah sebuah budaya dan gerakan seni yang lahir pada tahun 1970-an di Bronx, New York City, awalnya berkembang di kalangan komunitas Afrika-Amerika dan Latin. Hip hop tidak hanya sebatas genre musik, tetapi menyangkup Mcing, Dj-ing, Breakdancing, Rapping.
+        </p>
+      </div>
+    </div>
+  </section>
+  <div class="sticky-title">
+    <h1 class="display-5 fw-bold">HIPHOP</h1>
+    <h2><i>HISTORY</i></h2>
+    <div class="progress-bar-wrapper">
+      <div class="progress-bar-fill" id="progressBarFill"></div>
+    </div>
+  </div>
+  <div class="title-space"></div>
+  <div class="container how-it-works-container">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="how-it-works">
+          <h2 class="fs-2 fw-bold">How It Works</h2>
+          <p>Scroll ke bawah untuk menelusuri bagian-bagian penting dalam sejarah HipHop dari tahun ke tahun.</p>
+        </div>
+      </div>
+      <div class="col-md-4 d-flex justify-content-center">
+        <div class="scroll-guide">
+          <div class="scroll-line"></div>
+          <div class="scroll-dot-anim"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="timeline-wrapper">
+    <div class="timeline" id="timeline">
+      <div class="scroll-dot" id="scrollDot"></div>
+      <!-- Timeline Entries -->
+      <div class="timeline-entry">
+        <div class="timeline-hole"></div>
+        <div class="year-label">1970</div>
+        <div class="content-left">
+          <h3>1970: Awal Mula HipHop</h3>
+          <p>Gerakan dimulai di Bronx, NYC oleh DJ Kool Herc yang mempopulerkan breakbeat.</p>
+          <a class="btn-link" href="https://www.youtube.com/watch?v=PobrSpMwKk4" target="_blank" rel="noopener noreferrer">Lihat Music Video</a>
+        </div>
+        <div class="content">
+          <div class="image-wrapper">
+            <img src="img/tahun1970.jpg" alt="1970" class="img-fluid" />
+          </div>
+        </div>
+      </div>
+      <div class="timeline-entry">
+        <div class="timeline-hole"></div>
+        <div class="year-label">1984</div>
+        <div class="content-left">
+          <h3>1984: Era Emas Awal</h3>
+          <p>Breakdancing dan rap mulai menembus media arus utama, MTV mulai memutar video hip-hop.</p>
+          <a class="btn-link" href="https://www.youtube.com/watch?v=9J3lwZjHenA" target="_blank" rel="noopener noreferrer">Lihat Music Video</a>
+        </div>
+        <div class="content">
+          <div class="image-wrapper">
+            <img src="img/tahun1984.jpg" alt="1984" class="img-fluid" />
+          </div>
+        </div>
+      </div>
+      <div class="timeline-entry">
+        <div class="timeline-hole"></div>
+        <div class="year-label">1994</div>
+        <div class="content-left">
+          <h3>1994: Dominasi Gangster</h3>
+          <p>East Coast vs West Coast memuncak. Nama besar seperti Tupac & Biggie mewarnai era ini.</p>
+          <a class="btn-link" href="https://www.youtube.com/watch?v=41qC3w3UUkU" target="_blank" rel="noopener noreferrer">Lihat Music Video</a>
+        </div>
+        <div class="content">
+          <div class="image-wrapper">
+            <img src="img/tahun1994.jpg" alt="1994" class="img-fluid" />
+          </div>
+        </div>
+      </div>
+      <div class="timeline-entry">
+        <div class="timeline-hole"></div>
+        <div class="year-label">2000</div>
+        <div class="content-left">
+          <h3>2000: Era Komersialisasi</h3>
+          <p>Hip-hop jadi industri global. Eminem, Jay-Z, dan 50 Cent mendominasi tangga lagu dunia.</p>
+          <a class="btn-link" href="https://www.youtube.com/watch?v=eJO5HU_7_1w" target="_blank" rel="noopener noreferrer">Lihat Music Video</a>
+        </div>
+        <div class="content">
+          <div class="image-wrapper">
+            <img src="img/tahun2000.jpg" alt="2000" class="img-fluid" />
+          </div>
+        </div>
+      </div>
+      <div class="timeline-entry">
+        <div class="timeline-hole"></div>
+        <div class="year-label">2008</div>
+        <div class="content-left">
+          <h3>2008: Digitalisasi dan Streaming</h3>
+          <p>Peralihan ke era YouTube & Spotify membuat artis baru seperti Drake & Kendrick Lamar naik.</p>
+          <a class="btn-link" href="https://www.youtube.com/watch?v=gkZ4dLMH-B8" target="_blank" rel="noopener noreferrer">Lihat Music Video</a>
+        </div>
+        <div class="content">
+          <div class="image-wrapper">
+            <img src="img/tahun2008.jpg" alt="2008" class="img-fluid" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button id="backToTop" class="btn" title="Back to Top"><i class="fas fa-arrow-up"></i></button>
+  
+  <!-- Bootstrap JS Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const scrollDot = document.getElementById('scrollDot');
+    const timeline = document.getElementById('timeline');
+    const progressBar = document.getElementById('progressBarFill');
+    const backToTopButton = document.getElementById("backToTop");
+    
+    function updateDotPosition() {
+      const timelineTop = timeline.offsetTop;
+      const timelineHeight = timeline.offsetHeight;
+      const dotY = window.scrollY + window.innerHeight / 2 - timelineTop;
+      const maxDotY = timelineHeight - scrollDot.offsetHeight;
+      const clampedY = Math.max(0, Math.min(dotY, maxDotY));
+      scrollDot.style.top = `${clampedY}px`;
+    }
+    
+    function updateProgressBar() {
+      const scrollTop = window.scrollY;
+      const scrollHeight = document.body.scrollHeight - window.innerHeight;
+      const progress = Math.min(100, (scrollTop / scrollHeight) * 100);
+      progressBar.style.width = `${progress}%`;
+    }
+    
+    window.addEventListener('scroll', () => {
+      updateDotPosition();
+      updateProgressBar();
+      backToTopButton.style.display = window.scrollY > 300 ? "flex" : "none";
+    });
+    
+    window.addEventListener('resize', updateDotPosition);
+    
+    window.addEventListener('load', () => {
+      updateDotPosition();
+      updateProgressBar();
+    });
+    
+    backToTop.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+    
+    // Intersection Observer untuk fade-in dan fade-out
+    const observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('fade-in');
+            entry.target.classList.remove('fade-out');
+          } else {
+            entry.target.classList.add('fade-out');
+            entry.target.classList.remove('fade-in');
+          }
+        });
+      },
+      { threshold: 0.25 }
+    );
+    
+    document.querySelectorAll('.timeline-entry').forEach(entry => {
+      // Inisialisasi kelas fade-out agar tidak langsung terlihat
+      entry.classList.add('fade-out');
+      observer.observe(entry);
+    });
+  </script>
+</body>
+</html>
